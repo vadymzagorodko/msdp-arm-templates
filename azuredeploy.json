@@ -1,0 +1,109 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "outputs": {},
+  "parameters": {
+    "keyvaultName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "accessPolicies": {
+      "type": "array"
+    },
+    "tenant": {
+      "type": "string"
+    },
+    "enabledForDeployment": {
+      "type": "bool"
+    },
+    "enabledForTemplateDeployment": {
+      "type": "bool"
+    },
+    "enabledForDiskEncryption": {
+      "type": "bool"
+    },
+    "enableRbacAuthorization": {
+      "type": "bool"
+    },
+    "enableSoftDelete": {
+      "type": "bool"
+    },
+    "softDeleteRetentionInDays": {
+      "type": "int"
+    },
+    "networkAcls": {
+      "type": "object"
+    },
+    "registryName": {
+      "type": "string"
+    },
+    "zoneRedundancy": {
+      "type": "string"
+    },
+    "registrySku": {
+      "type": "string"
+    },
+    "publicNetworkAccess": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2019-09-01",
+      "dependsOn": [],
+      "location": "[parameters('location')]",
+      "name": "[parameters('keyvaultName')]",
+      "properties": {
+        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+        "enableRbacAuthorization": "[parameters('enableRbacAuthorization')]",
+        "accessPolicies": "[parameters('accessPolicies')]",
+        "tenantId": "[parameters('tenant')]",
+        "sku": {
+          "name": "[parameters('sku')]",
+          "family": "A"
+        },
+        "enableSoftDelete": "[parameters('enableSoftDelete')]",
+        "softDeleteRetentionInDays": "[parameters('softDeleteRetentionInDays')]",
+        "networkAcls": "[parameters('networkAcls')]"
+      },
+      "tags": {
+        "created-by": "Vadym Zagorodko",
+        "environment": "Dev",
+        "owner": "EPAM",
+        "project": "MsDP"
+      },
+      "type": "Microsoft.KeyVault/vaults"
+    },
+    {
+      "type": "Microsoft.ContainerRegistry/registries",
+      "apiVersion": "2020-11-01-preview",
+      "name": "[parameters('registryName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [],
+      "sku": {
+        "name": "[parameters('registrySku')]"
+      },
+      "tags": {
+        "created-by": "Vadym Zagorodko",
+        "environment": "Dev",
+        "owner": "EPAM",
+        "project": "MsDP"
+      },
+      "properties": {
+        "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
+        "zoneRedundancy": "[parameters('zoneRedundancy')]"
+      }
+    }
+  ],
+  "variables": {
+    "acrNameTemplateFolder": "nestedtemplates",
+    "acrNameTemplateFileName": "acrName.json",
+    "acrNameTemplateParametersFileName": "acrName.parameters.json"}
+}
